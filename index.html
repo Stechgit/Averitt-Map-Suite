@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Averitt Express Map Suite</title>
+    <link href="css/lib/bootstrap.min.css" rel="stylesheet">
+    <!-- BootStrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <!-- PapaParse -->
+    <script src="https://unpkg.com/papaparse@latest/papaparse.min.js"></script>
+    <!-- CSS File-->
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <!-- JavaScript Script Files -->
+    <script src="js/index.js"></script>
+    <script src="js/lib/us-states.js"></script>
+    <script src="js/map-settings.js"></script>
+    <script src="js/map-pathconf.js"></script>
+
+</head>
+
+<body>
+    <!-- White Header With Red Logo -->
+    <div class="header-row" style="background-color:white; height:75px">
+        <div class="container mt-2" style="float: right;">
+            <img src="images/2560px-Averitt_Express_logo.svg.png" class="float-right col-3 mt-2"
+                alt="AverittLogoHeader" />
+        </div>
+    </div>
+
+    <!-- Averitt Red Header -->
+    <div class="header-row" style="background-color:#c3202f; height: 25px; border-style:solid none solid none;"></div>
+
+    <div class="box">
+        <!--        <div class="">-->
+        <div class="card vh-100 col-2 d-flex justify-content-left" id="NavBar2"
+            style="grid-row-end:span 1; background-color:#333333; border-radius: 0px; min-width:240px ; max-width:240px; overflow:hidden; overflow-y:scroll; scrollbar-width: 0; display: flex; align-items: flex-start; border-style: none solid none none none;">
+            <button type="button" class="slide-toggle rotate bg-transparent" id="btnCollapseNav"
+                style=" position:absolute; z-index:100; margin-left:auto; border-width: 0px; border-color:#c3202f; color: white; right: 12px; transform:translateY(10%)translateX(60%);"><i
+                    class="fa-solid fa-angles-left"></i></button>
+            <!-- NAVIGATION BAR CARDS -->
+            <div id="Navbar">
+
+                <!-- SERVICE CENTER UPLOAD -->
+                <div class="card text-center"
+                    style="border-color:#c3202f; border-radius:10px; border-width:3px; width:200px; height:auto; right: 12px;">
+                    <div class="row justify-content-center d-flex">
+                        <div class="container d-flex justify-content-between m-2 mb-2">
+                            <h6 class="text-center mt-2 ml-5"><b>Service Centers</b></h6>
+                            <button onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'"
+                                class="col-3 rotate bg-transparent just" id="btnToggleService"
+                                style="border-width: 0px; background-color: white;"><i
+                                    class="fa-solid fa-angle-up"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="txtSchedService">
+                        <div class="d-flex justify-content-center">
+                            <input type="file" id="ServiceFile" style="display: none;" accept="csv" required />
+                            <button id="ServiceButton" onmouseover="this.style.opacity = '0.6'"
+                                onmouseout="this.style.opacity = '1'" class="col-6.5 m-1 px-2">Choose File</button>
+                        </div>
+                        <div class="row justify-content-center d-flex" style="color:#c3202f">
+                            <h6 class="text-center" id="noFileService"><b>No File Chosen</b></h6>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- SCHEDULED SHIPMENTS -->
+                <div class="card text-center mt-1"
+                    style="border-color:#c3202f; border-radius:10px; border-width:3px; width:200px; height:auto; right: 12px;">
+                    <div class="row justify-content-center d-flex">
+                        <div class="container d-flex justify-content-between m-2 mb-2">
+                            <h6 class="text-center mt-2 ml-5"><b>Scheduled Shipment</b></h6>
+                            <button onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'"
+                                class="col-3 rotate bg-transparent just" id="btnToggleScheduled"
+                                style="border-width: 0px; background-color: white;"><i
+                                    class="fa-solid fa-angle-up"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="txtSchedCard">
+                        <div class="d-flex justify-content-center">
+                            <input type="file" id="ScheduledPathFile" style="display: none;" accept="csv" required />
+                            <button id="ScheduledPathButton" onmouseover="this.style.opacity = '0.6'"
+                                onmouseout="this.style.opacity = '1'" class="col-6.5 m-1 px-2">Choose File</button>
+                        </div>
+                        <div class="row justify-content-center d-flex" style="color:#c3202f">
+                            <h6 class="text-center" id="noFileScheduled"><b>No File Chosen</b></h6>
+                        </div>
+                        <div class="row justify-content-center d-flex">
+                            <label class="text-center mb-4" style="font-size:15px">Show Scheduled Path(s)<input
+                                    type="checkbox" class="m-1" id="SidebarScheduledShow"> </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTUAL SHIPMENTS-->
+                <div class="card text-center mt-1"
+                    style="border-color:#c3202f; border-radius:10px; border-width:3px; width:200px; height:auto; right:12px">
+                    <div class="row justify-content-center d-flex">
+                        <div class="container d-flex justify-content-between m-2 mb-2">
+                            <h6 class="text-center mt-2 ml-5"><b>Actual Shipments</b></h6>
+                            <button onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'"
+                                class="col-3 rotate bg-transparent" id="btnToggleActual"
+                                style="border-width: 0px; background-color: white;"><i
+                                    class="fa-solid fa-angle-up"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="txtActualCard">
+                        <div class="d-flex justify-content-center">
+                            <input type="file" id="ActualPathFile" style="display: none;" accept="csv" required />
+                            <button id="ActualPathButton" onmouseover="this.style.opacity = '0.6'"
+                                onmouseout="this.style.opacity = '1'" class="col-6.5 m-1 px-2">Choose File</button>
+                        </div>
+                        <div class="row justify-content-center d-flex" style="color:#c3202f">
+                            <h6 class="text-center" id="noFileActual"><b>No File Chosen</b></h6>
+                        </div>
+                        <div class="row justify-content-center d-flex">
+                            <label class="text-center mb-4" style="font-size:15px;">Show Actual Path(s)<input
+                                    type="checkbox" class="m-1" id="SidebarActualShow"> </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EMPTY FREIGHT SHIPMENTS-->
+                <div class="card text-center mt-1"
+                    style="border-color:#c3202f; border-radius:10px; border-width: 3px; width:200px; height:auto; right:12px">
+                    <div class="row justify-content-center d-flex">
+                        <div class="container d-flex justify-content-between m-2 mb-2">
+                            <h6 class="text-center mt-2 ml-5"><b>Empty Shipments</b></h6>
+                            <button onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'"
+                                class="col-3 rotate bg-transparent" id="btnToggleEmpty"
+                                style="border-width: 0px; background-color: white;"><i
+                                    class="fa-solid fa-angle-up"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="txtEmptyCard">
+                        <div class="d-flex justify-content-center">
+                            <input type="file" id="EmptyFreightFile" style="display: none;" accept="csv" required />
+                            <button id="EmptyFreightButton" onmouseover="this.style.opacity = '0.6'"
+                                onmouseout="this.style.opacity = '1'" class="col-6.5 m-1 px-2">Choose File</button>
+                        </div>
+                        <div class="row justify-content-center d-flex" style="color:#c3202f">
+                            <h6 class="text-center"><b>No File Chosen</b></h6>
+                        </div>
+                        <div class="row justify-content-center d-flex">
+
+                            <label class="text-center mb-4">Show Empty Freight Path(s)<input type="checkbox" class="m-1"
+                                    id="SidebarEmptyShow"> </label>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- MAP SETTINGS || SHIPMENT INFORMATION-->
+                <div class="card mt-1"
+                    style="border-color:#c3202f; border-radius:10px; border-width:3px; width:200px; height:auto; right:12px">
+                    <div class="row justify-content-center d-flex dropdown">
+                        <div class="container d-flex justify-content-between m-2 mb-2">
+                            <h6 class="text-center mt-2 ml-5"><b>Map Settings</b></h6>
+                            <button onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'"
+                                class="col-3 rotate bg-transparent" id="btnToggleInfo"
+                                style="border-width: 0px; background-color: white;"><i
+                                    class="fa-solid fa-angle-up"></i></button>
+                        </div>
+
+                        <div class="ml-4" id="txtShipmentInfoCard">
+                            <h6 class="text-center mr-3"><b>Shipment Location</b></h6>
+                            <div id="OriginButtonTag">
+                                <button onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'"
+                                class="col-10 btn btn-secondary dropdown-toggle m-2" id="FilterOrg"
+                                style="border-color:#c3202f; background-color: #333333; border-radius:18px ; border-width: 2px; color:white"
+                                type="button" data-toggle="dropdown"><b>Origin</b></button>
+                                <div class="dropdown-menu" aria-labelledby="FilterOrg" id="originDropdown">
+                                    <!-- Origin dropdown menu items will be dynamically populated here -->
+                                </div>
+                            </div>
+                            <div id="DestinationButtonTag">
+                            <button onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'"
+                                class="col-10 btn btn-secondary dropdown-toggle m-2" id="FilterDes"
+                                style="border-color:#c3202f; background-color: #333333; border-radius:18px ; border-width: 2px; color:white"
+                                type="button" data-toggle="dropdown"><b>Destination</b></button>
+                                
+                                  <div class="dropdown-menu" aria-labelledby="FilterDes" id="destinationDropdown">
+                                    <!-- Destination dropdown menu items will be dynamically populated here -->
+                                  </div>
+                            </div>
+                            <div id="ShipmentDateInformation">
+                            <h6 class="text-center mt-2 mr-3"><b>Shipment Date</b></h6>
+                            <button onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'"
+                                class="col-10 btn btn-secondary dropdown-toggle m-2 " id="FilterFrom"
+                                style="border-color:#c3202f; background-color: #333333; border-radius:18px ; border-width: 2px;"
+                                type="button" data-toggle="dropdown"
+                                style="border-color: black; background-color:#333333; border-radius: 20px; color:white"><b>From
+                                    Date</b></button>
+                            <button onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'"
+                                class="col-10 btn btn-secondary dropdown-toggle m-2" id="FilterTo"
+                                style="border-color:#c3202f; background-color: #333333; border-radius:18px ; border-width: 2px;"
+                                type="button" data-toggle="dropdown"
+                                style="border-color: black; background-color:#333333; border-radius: 20px; color:white"><b>To
+                                    Date</b></button>
+                            </div>
+
+                            <div class="container d-flex justify-content-between m-2 mb-2">
+
+                                <button onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'"
+                                    class="col-8" type="button"
+                                    style="border-color: black; background-color:#1867c0; border-radius: 20px; color:white">Apply</button>
+                                <!-- <h4 onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'" class="mx-auto mt-2 pr-3"><i class="fa-solid fa-gear"></i></h6> -->
+                                <button type="settings" class="fa-solid fa-gear" data-toggle="modal"
+                                    data-target="#gearSettings"
+                                    style="position: absolute; right: 11%; top: 92%; background-color: transparent; border: transparent; transform: scale(1.5);"></button>
+                                <div class="modal fade" id="gearSettings" tabindex="-1" role="dialog"
+                                    aria-labelledby="gearSettingsCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="gearSettingsTitle">Map Settings</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h6 style="text-align: center;">Routing</h6>
+                                                <h6 style="text-align: center;">Paths</h6>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary"
+                                                    data-dismiss="modal">Apply</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="d-flex justify-content-center d-flex">
+
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- EXPORT-->
+                <div class="card mt-1"
+                    style="border-color:#c3202f; border-radius:10px; border-width:3px; width:200px; height:auto; right:12px">
+                    <div class="row justify-content-center d-flex">
+                        <div class="container d-flex justify-content-between m-2 mb-2">
+                            <h6 class="text-center mt-2 ml-5"><b>Export to PDF</b></h6>
+
+                            <button onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'"
+                                class="col-3 rotate bg-transparent" id="btnToggleExport"
+                                style="border-width: 0px; background-color: white;"><i
+                                    class="fa-solid fa-angle-up"></i></button>
+                        </div>
+                    </div>
+                    <div class="ml-4 " id="txtShipmentExportCard">
+                        <button onmouseover="this.style.opacity = '0.6'" onmouseout="this.style.opacity = '1'"
+                            class="col-7 p-2 ml-4 bg-success" type="button"
+                            style="border-color: black; border-radius: 20px; color:white">Export &nbsp<i
+                                class="fa-solid fa-right-from-bracket"></i></button>
+                        <label class="text-center mx-3 mb-4" style="font-size:15px">Add Logo to PDF<input
+                                type="checkbox" class="m-1">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- PATH CONFLICTS-->
+                <div class="card mt-1"
+                    style="border-color:#c3202f; border-radius:10px ; border-width:2px; width: 200px; right:12px">
+                    <h4 class="text-center"><b>Path Conflicts</b></h4>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!--Map Suite Test Placement-->
+    <div class="card" style="block-size: fit-content; white-space: nowrap; overflow: hidden;">
+
+        <div id="map"></div>
+        <script>
+
+            var map = L.map('map').setView([34.5, -86], 6);
+
+            var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 8,
+                minZoom: 4,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            //add ocean image as background
+            var ocean = new L.tileLayer("images/ocean.png", {
+                maxZoom: 8,
+                minZoom: 4,
+            }).addTo(map);
+
+            function style(feature) {
+                return {
+                    fillColor: '#E6E6E3',
+                    weight: 1,
+                    opacity: 1,
+                    color: 'red',
+                    dashArray: '3',
+                    fillOpacity: 1
+                };
+            }
+            
+            var blueIcon = new L.Icon({
+                iconUrl: 'images/blue-circle.png',
+                iconSize: [31.8, 31.8],
+                iconAnchor: [16.5, 16],
+                popupAnchor: [0, 0],
+            });
+
+            // Add the US states layer to the map
+            L.geoJson(statesData, { style: style }).addTo(map);
+        </script>
+    </div>
+
+    <footer class="page-footer"
+        style="background-color:#333333; width:100%; margin: 0; border-style: solid none none none;">
+        <div class="container mt-5 pt-2" style="float: left;">
+            <img src="images/Averitt_logo_white.gif" class="float-left col-4 mt-2" alt="AverittLogoFooter" />
+        </div>
+        <div class="vcard" style="text-align: right; color:white; margin-right: 30%; margin-top: 4%;">
+            <span class="fn org" style="font-size: 20px;">Averitt Express</span>
+            <div class="addr" style="font-size: 12px">
+                <span class="street">1415 Neal Street P.O. Box 3166<br></span>
+                <span class="city">Cookeville,</span>
+                <span class="state">TN</span>
+                <span class="postal">38502</span>
+            </div>
+            <div class="copyright" style="font-size: 12px;"><br>© 2023 Averitt Express. All rights reserved.</div>
+        </div>
+        <!-- <div class="float-right justify-content-right m-4">
+            <hr class="flex" style="color:white; background-color: white;">
+            <h6 class="text-white text-right">Averitt Express</h5>
+                <h6 class="text-white text-right">1415 Neal Street P.O Box 3166</h5>
+                    <h6 class="text-white text-right">Cookeville, TN 38502</h5>
+                        <h6></h6>
+                        <h7 class="text-white">2022 Averitt Express, All Rights Reserved.</h7>
+        </div> -->
+    </footer>
+
+    <div id="my-popup" class="popup" style.display="block">
+        <div class="popup-content">
+            <p id="popup-message">Please import the Service Center Files.</p>
+            <button id="popup-close">Close</button>
+        </div>
+    </div>
+
+    <div id="error-popup" class="popup" style.display="none">
+        <div class="popup-content">
+            <p id="epopup-message">Error. Please contact tech@averitt.com</p>
+            <button id="popup-close">Close</button>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- CDNs AND SCRIPTS -->
+    <script src="js/lib/jquery-3.6.1.min.js"></script>
+    <script src="js/lib/bootstrap.bundle.min.js"></script>
+    <script src="js/lib/sweetalert2@11.js"></script>
+    <script src="https://kit.fontawesome.com/1612810c5a.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script>
+
+const closeButton = document.querySelector('#my-popup');
+        const ecloseButton = document.querySelector('#error-popup');
+        const popup = document.querySelector('#my-popup');
+        const epopup = document.querySelector('#error-popup');
+        const popupMessage = document.querySelector('#popup-content');
+        const epopupMessage = document.querySelector('#error-popup');
+
+        popup.style.display = "block";
+       
+        let SVCArr;
+        const ServiceFile = document.getElementById("ServiceFile");
+        const ServiceButton = document.getElementById("ServiceButton");
+
+        ServiceButton.onclick = function () {
+            ServiceFile.click();
+        };
+
+
+        ServiceFile.onchange = function () {
+            const file = ServiceFile.files[0];
+
+            const filename = $('#ServiceFile').val().split('\\').pop();
+
+            $('#noFileService').text("");
+
+            $('#noFileService').append(filename);
+
+            if (filename == "error.csv") {
+                epopup.style.display = 'block';
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const text = e.target.result;
+                SVCArr = SVCcsvToArray(text);
+                getsvcfiledata(SVCArr);
+                populateDropdowns(SVCArr, orgDropdownMenu, orgBtn);
+                populateDropdowns(SVCArr, desDropdownMenu, desBtn);
+            };
+
+            reader.readAsText(file);
+
+            function SVCcsvToArray(str, delimiter = ",") {
+                const headers = ["INDEX", "ABBR", "NAME", "ID", "LAT", "LON"];
+                const rows = str.split("\n");
+                const arr = rows.map(function (row) {
+                const values = row.replace("\r", "").split(delimiter);
+                const el = headers.reduce(function (object, header, index) {
+                    object[header] = values[index];
+                    return object;
+                }, {});
+                return el;
+            });
+            console.log(arr);
+            return arr;
+        }
+    };
+
+    // Get the buttons
+    const orgBtn = document.getElementById("FilterOrg");
+    const desBtn = document.getElementById("FilterDes");
+
+    // Get the dropdown menu
+    const orgDropdownMenu = document.getElementById("originDropdown");
+    const desDropdownMenu = document.getElementById("destinationDropdown");
+
+    // Function to create dropdown items
+    function createDropdownItem(text) {
+    const dropdownItem = document.createElement("a");
+    dropdownItem.classList.add("dropdown-item");
+    dropdownItem.setAttribute("href", "#");
+    dropdownItem.textContent = text;
+    return dropdownItem;
+    }
+
+    // Populate the origin and destination dropdowns
+    function populateDropdowns(arr, dropdownMenu, targetButton) {
+  const uniqueValues = new Set(arr.map(item => item.ABBR));
+  uniqueValues.forEach((value) => {
+    const dropdownItem = createDropdownItem(value);
+    if (targetButton === orgBtn) {
+      dropdownItem.addEventListener("click", () => {
+        orgBtn.textContent = value;
+      });
+      dropdownMenu.appendChild(dropdownItem);
+    } else if (targetButton === desBtn) {
+      dropdownItem.addEventListener("click", () => {
+        desBtn.textContent = value;
+      });
+      dropdownMenu.appendChild(dropdownItem);
+    }
+    });
+ 
+}
+
+
+           
+    </script>
+
+<script>
+
+       
+    let ActualArr;
+      const ActualFile = document.getElementById("ActualPathFile");
+      const ActualButton = document.getElementById("ActualPathButton");
+    
+      ActualButton.onclick = function () {
+        ActualFile.click();
+      };
+      var filename = $('#ActualPathFile').val().split('\\').pop();
+      ActualFile.onchange = function () {
+        const file = ActualFile.files[0];
+        const reader = new FileReader();
+    
+        reader.onload = function (e) {
+          const text = e.target.result;
+          ActualArr = ActaulcsvToArray(text);
+          getActualfiledata(ActualArr, SVCArr);
+        };
+        filename = $('#ActualPathFile').val().split('\\').pop();
+
+            $('#noFileActual').text("");
+
+            $('#noFileActual').append(filename);
+
+            if (filename == "error.csv") {
+                epopup.style.display = 'block'
+            }
+        reader.readAsText(file);
+    
+        function ActaulcsvToArray(str, delimiter = ",") {
+      const headers = ["DATE", "ORIGIN", "DESTINATION", "PATH"];
+      const rows = str.split("\n");
+      arr = rows.map(function (row, index) { // Add 'index' as a second parameter to the map function
+          const values = row.replace("\r", "").split(delimiter);
+          const pathLocations = values[3].split('-');
+          const locations = pathLocations.map(loc => {
+              const location = SVCArr.find(service => service.ABBR === loc);
+              if (!location) {
+                  console.log(`Could not find location for path index ${index} location: `, loc); // Add this console.log statement
+              }
+              return location;
+          });
+          if (locations.some(loc => !loc)) {
+              return null;
+          }
+          const el = headers.reduce(function (object, header, index) {
+              if (header === "PATH") {
+                  object[header] = locations;
+              } else {
+                  object[header] = values[index];
+              }
+              return object;
+          }, {});
+          return el;
+      }).filter(Boolean);
+      console.log(arr);
+      return arr;
+    }
+      };
+            
+            
+           
+    </script>
+
+<script>
+
+
+
+       
+  let SCHEDArr;
+  const ScheduledFile = document.getElementById("ScheduledPathFile");
+  const ScheduledButton = document.getElementById("ScheduledPathButton");
+
+  ScheduledButton.onclick = function () {
+    ScheduledFile.click();
+  };
+  var filename = $('#ScheduledPathFile').val().split('\\').pop();
+  ScheduledFile.onchange = function () {
+    const file = ScheduledFile.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      const text = e.target.result;
+      SCHEDArr = SCHEDcsvToArray(text);
+      getSCHEDfiledata(SCHEDArr, SVCArr);
+    };
+
+    filename = $('#ScheduledPathFile').val().split('\\').pop();
+
+    $('#noFileScheduled').text("");
+
+    $('#noFileScheduled').append(filename);
+
+    if (filename == "error.csv") {
+        epopup.style.display = 'block'
+    }
+
+
+    reader.readAsText(file);
+
+    function SCHEDcsvToArray(str, delimiter = ",") {
+  const headers = ["DATE", "ORIGIN", "DESTINATION", "PATH"];
+  const rows = str.split("\n");
+  arr = rows.map(function (row, index) { // Add 'index' as a second parameter to the map function
+      const values = row.replace("\r", "").split(delimiter);
+      const pathLocations = values[3].split('-');
+      const locations = pathLocations.map(loc => {
+          const location = SVCArr.find(service => service.ABBR === loc);
+          if (!location) {
+              console.log(`Could not find location for path index ${index} location: `, loc); // Add this console.log statement
+          }
+          return location;
+      });
+      if (locations.some(loc => !loc)) {
+          return null;
+      }
+      const el = headers.reduce(function (object, header, index) {
+          if (header === "PATH") {
+              object[header] = locations;
+          } else {
+              object[header] = values[index];
+          }
+          return object;
+      }, {});
+      return el;
+  }).filter(Boolean);
+  console.log(arr);
+  return arr;
+}
+  };
+        
+        
+       
+</script>
+
+    <script>
+       
+
+       function getsvcfiledata(SVCArr) {
+        for (let i = 0; i < SVCArr.length; i++) {
+            var latitude = SVCArr[i].LAT;
+            var longitude = SVCArr[i].LON;
+            const marker = L.marker([latitude, longitude], {title: SVCArr[i].NAME, icon: blueIcon}).addTo(map);
+            marker.bindTooltip(SVCArr[i].ABBR, {
+                permanent: true,
+                direction: 'center',
+                className: "m-labels"
+            });
+        }
+    }
+
+    function getSCHEDfiledata(SCHED, SERVICE) {
+  const CenterCoords = {};
+  for (let i = 0; i < SERVICE.length; i++) {
+    CenterCoords[SERVICE[i].ABBR] = { lat: SERVICE[i].LAT, lng: SERVICE[i].LON };
+  }
+  for (let i = 0; i < SCHED.length; i++) {
+    const abbrs = SCHED[i].PATH.map(location => location.ABBR);
+    if (!abbrs) {
+      console.log(`Invalid PATH for index ${i}`);
+      continue;
+    }
+    const locations = abbrs.map(abbr => CenterCoords[abbr]);
+    const hasUndefinedLocations = locations.some(loc => !loc);
+    if (hasUndefinedLocations) {
+      console.log("Could not find locations for path: ", abbrs);
+      continue;
+    }
+    const arrLocations = locations.map(loc => [loc.lat, loc.lng]);
+    L.polyline(arrLocations, { color: 'blue', weight: 3, dashArray: '10, 5', opacity: 0.8, interactive: true }).addTo(map);
+  }
+}
+        
+function getActualfiledata(ACTUAL, SERVICE) {
+  const CenterCoords = {};
+  for (let i = 0; i < SERVICE.length; i++) {
+    CenterCoords[SERVICE[i].ABBR] = { lat: SERVICE[i].LAT, lng: SERVICE[i].LON };
+  }
+  for (let i = 0; i < ACTUAL.length; i++) {
+    const abbrs = ACTUAL[i].PATH.map(location => location.ABBR);
+    if (!abbrs) {
+      console.log(`Invalid PATH for index ${i}`);
+      continue;
+    }
+    const locations = abbrs.map(abbr => CenterCoords[abbr]);
+    const hasUndefinedLocations = locations.some(loc => !loc);
+    if (hasUndefinedLocations) {
+      console.log("Could not find locations for path: ", abbrs);
+      continue;
+    }
+    const arrLocations = locations.map(loc => [loc.lat, loc.lng]);
+    L.polyline(arrLocations, { color: 'red', weight: 2, opacity: 0.8, interactive: true }).addTo(map);
+  }
+}
+
+
+
+
+        //uncomment this
+        // const ServiceFile = document.getElementById("ServiceFile");
+        // const ServiceButton = document.getElementById("ServiceButton");
+        // ServiceButton.onclick = function () {
+        //     ServiceFile.click();
+        // };
+        // ServiceFile.onchange = function () {
+        //     const file = ServiceFile.files[0];
+        //     parseFile(file, "Scheduled Path:", getsvcfiledata);
+        // };
+
+        // const ScheduledPathFile = document.getElementById("ScheduledPathFile");
+        // const ScheduledPathButton = document.getElementById("ScheduledPathButton");
+        // ScheduledPathButton.onclick = function () {
+        //     ScheduledPathFile.click();
+        // };
+        // ScheduledPathFile.onchange = function () {
+        //     const file = ScheduledPathFile.files[0];
+        //     parseFile(file, "Actual Path:", function (finalScheduledData) {
+        //         // Retrieve service center data
+        //         parseFile(ServiceFile.files[0], "Service Center:", function (finalSvcData) {
+        //             const serviceCenterLocations = getsvcfiledata(finalSvcData);
+
+        //             // Make routes between actual origin and destination
+        //             getScheduledFileData(finalScheduledData, serviceCenterLocations);
+        //         });
+        //     });
+        // };
+
+        // const ActualPathFile = document.getElementById("ActualPathFile");
+        // const ActualPathButton = document.getElementById("ActualPathButton");
+        // ActualPathButton.onclick = function () {
+        //     ActualPathFile.click();
+        // };
+        // ActualPathFile.onchange = function () {
+        //     const file = ActualPathFile.files[0];
+        //     parseFile(file, "Actual Path:", function (finalData) {
+        //         // Retrieve service center data
+        //         parseFile(ServiceFile.files[0], "Service Center:", function (finalSvcData) {
+        //             const serviceCenterLocations = getsvcfiledata(finalSvcData);
+
+        //             // Make routes between actual origin and destination
+        //             getactualfiledata(finalData, serviceCenterLocations);
+        //         });
+        //     });
+        // };
+
+
+        // const EmptyFreightFile = document.getElementById("EmptyFreightFile");
+        // const EmptyFreightButton = document.getElementById("EmptyFreightButton");
+        // EmptyFreightButton.onclick = function () {
+        //     EmptyFreightFile.click();
+        // };
+        // EmptyFreightFile.onchange = function () {
+        //     const file = EmptyFreightFile.files[0];
+        //     parseFile(file, "Empty Freight:", function (finalEmptyData) {
+        //         parseFile(ServiceFile.files[0], "Service Center:", function (finalSvcData) {
+        //             // Retrieve service center data
+        //             const serviceCenterLocations = getsvcfiledata(finalSvcData);
+        //             // Make routes between actual origin and destination
+        //             getEmptyFreightFileData(finalEmptyData, serviceCenterLocations);
+        //         });
+        //     });
+        // };
+
+        // function parseFile(file, fileName, callback) {
+        //     Papa.parse(file, {
+        //         header: false,
+        //         complete: function (results) {
+        //             console.log(`Parsed Data for ${fileName}:`, results.data);
+        //             callback(results.data);
+        //         },
+        //     });
+        // }
+          
+        // function getsvcfiledata(finalSvcData) {
+        //     const serviceCenterLocations = {};
+
+        //     for (let i = 0; i < finalSvcData.length; i++) {
+        //         const [, serviceCenterName, distCenterName, , latitude, longitude] = finalSvcData[i];
+        //         serviceCenterLocations[serviceCenterName] = { lat: latitude, lng: longitude };
+
+                
+        //         const lat = latitude;
+        //         const lng = longitude;
+        //         const marker = L.marker([latitude, longitude]).addTo(map);
+        //     }
+        //     return serviceCenterLocations;
+            
+        // }
+        
+        // function getactualfiledata(finalData, serviceCenterLocations) {
+        //     for (let i = 0; i < finalData.length; i++) {
+        //         const [actualPathDate, actualOrigin, actualDestination, actualPath, numOfPaths] = finalData[i];
+                
+                
+                
+        //         const pathLocations = actualPath.split('-').map(location => serviceCenterLocations[location]);
+        //         const hasUndefinedLocations = pathLocations.some(loc => !loc);
+        //         if (hasUndefinedLocations) {
+        //             console.log("Could not find locations for path:", actualPath);
+        //             continue;
+        //         }
+
+        //         const arrlocations = pathLocations.map(loc => [loc.lat, loc.lng]);
+        //         L.polyline(arrlocations, { color: 'red', weight: 2, opacity: 0.8, interactive: true }).addTo(map);
+        //     }
+        // }
+
+        // function getScheduledFileData(finalScheduledData, serviceCenterLocations) {
+        //     for (let i = 0; i < finalScheduledData.length; i++) {
+        //         const [scheduledPathDate, scheduledOrigin, scheduledDestination, scheduledPath] = finalScheduledData[i];
+                
+                
+        //         const pathLocations = scheduledPath.split('-').map(location => serviceCenterLocations[location]);
+        //         const hasUndefinedLocations = pathLocations.some(loc => !loc);
+        //         if (hasUndefinedLocations) {
+        //             console.log("Could not find locations for path:", scheduledPath);
+        //             continue;
+        //         }
+        //         const arrlocations = pathLocations.map(loc => [loc.lat, loc.lng]);
+        //         L.polyline(arrlocations, { color: 'blue', weight: 3, dashArray: '10, 5', opacity: 0.8, interactive: true }).addTo(map);
+
+        //     }
+        // }
+
+        // $('#btnApply').on('click', function () {
+        //     console.log("Hello!");
+        //     //var scheduledArray = getScheduledFileData;
+        //     //console.log(scheduledArray());
+        //     //var service = getsvcfiledata()
+        //    console.log(serviceCenterLocations);
+        // })
+        // // function getEmptyFreightFileData(finalEmptyData, serviceCenterLocations) {
+        // //     for (let i = 0; i < finalEmptyData.length; i++) {
+
+        // //     }
+        // // }
+
+    </script>
+
+    <script>
+        //Apply button
+        //Create Array
+        
+
+    </script>
+    
+    <script>
+        $('#btnToggleScheduled').on('click', function () {
+            
+            $('#txtSchedCard').slideToggle();
+            // $('#btnToggleScheduled').addClass('rotating')
+            // $("#txtSchedCard").animate({width:'toggle'},350);
+
+        })
+    </script>
+
+    <script>
+        $('#btnToggleActual').on('click', function () {
+            
+            $('#txtActualCard').slideToggle();
+
+        })
+    </script>
+
+    <script>
+        $('#btnToggleEmpty').on('click', function () {
+            
+            $('#txtEmptyCard').slideToggle();
+
+        })
+    </script>
+
+    <script>
+        $('#btnToggleInfo').on('click', function () {
+           
+            $('#txtShipmentInfoCard').slideToggle();
+
+        })
+    </script>
+
+    <script>
+        $('#btnToggleExport').on('click', function () {
+            
+            $('#txtShipmentExportCard').slideToggle();
+
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".slide-toggle").click(function () {
+                $(".box").animate({
+                    width: "toggle"
+                });
+                $('#btnCollapseNav').val('');
+                // $('#btnCollapseNav').append('<i class="fa-solid fa-angles-right"></i>')
+            });
+        });
+    </script>
+    <script>
+        $(".rotate").click(function () {
+            $(this).toggleClass("down");
+        });
+    </script>
+
+    <!-- This script will resize the map when zoomed in/out in a browser -->
+    <script>
+        var mapmargin = 0;
+        $('#map').css("height", ($(window).height() - mapmargin));
+        $(window).on("resize", resize);
+        resize();
+        function resize() {
+
+            if ($(window).width() >= 980) {
+                $('#map').css("height", ($(window).height() - mapmargin));
+                //$('#map').css("margin-top", 50);
+            } else {
+                $('#map').css("height", ($(window).height() - (mapmargin)));
+                //$('#map').css("margin-top", -21);
+            }
+            //setTimeout(function(){ map.invalidateSize(true)}, 300);
+            map.invalidateSize();
+
+        }
+    </script>
+
+<script>
+    // Add an event listener to the close button that hides the popup
+    closeButton.addEventListener('click', () => {
+        popup.style.display = 'none';
+    });
+</script>
+
+<script>
+    // Add an event listener to the close button that hides the popup
+    ecloseButton.addEventListener('click', () => {
+        epopup.style.display = 'none';
+    }); 
+</script>
+
+</body>
+
+</html>
