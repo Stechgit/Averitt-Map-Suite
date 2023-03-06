@@ -3,6 +3,8 @@ It helps the company determine when their drivers deviate from their scheduled r
 
 The software is still under development and has 3 more iterations left before completion.
 
+To open the program, open index.html
+
 The software takes 3 inputs in the following order, these inputs are CSV files.
 
 1. The Service Center File (ServiceCenters.csv)
