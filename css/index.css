@@ -35,10 +35,33 @@
 }
 
 .dropdown-menu {
-    max-height: 300px; /* set a maximum height for the dropdown menu */
-    overflow: auto; /* add a scrollbar to the dropdown menu when its contents overflow */
+    max-height: 300px;
+    /* set a maximum height for the dropdown menu */
+    max-width: 170px;
+    /* set a maximum width for the dropdown menu */
+    overflow: auto;
+    /* add a scrollbar to the dropdown menu when its contents overflow */
     position: absolute;
-    z-index: 2;
+    z-index: 1002;
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 3px solid #c3202f;
+    border-radius: 5px;
+    background-color: #333333;
+}
+
+.dropdown-item {
+    color: #c3202f;
+    font-weight: bold;
+}
+
+.search-input {
+    width: 100%;
+    padding: 5px 10px;
+    margin: 5px 0;
+    border: 2px solid #c3202f;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
 #ServiceButton {
@@ -73,6 +96,22 @@
     border-color: black;
 }
 
+#cancelButton {
+    background-color: #333333;
+    color: white;
+    padding: 2.5px 6px;
+    border-radius: 20px;
+    border-color: black;
+}
+
+#okButton {
+    /* background-color: #1867c0; */
+    color: white;
+    padding: 2.5px 6px;
+    border-radius: 20px;
+    border-color: black;
+}
+
 .box {
     float: left;
     overflow: hidden;
@@ -93,6 +132,7 @@ for better animation effect */
     -webkit-transition: all 0.3s linear;
     transition: all 0.3s linear;
 }
+
 .rotate.down {
     -ms-transform: rotate(180deg);
     -moz-transform: rotate(180deg);
@@ -106,4 +146,244 @@ for better animation effect */
     border: transparent;
     box-shadow: none;
     font-weight: bold;
+}
+
+.legend-box {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+    border: 1px solid black;
+    vertical-align: middle;
+}
+
+.legend {
+    text-align: center;
+}
+
+.legend-text {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.legend-box.scheduled {
+    background-color: blue;
+}
+
+.legend-box.actual {
+    background-color: red;
+}
+
+.legend-box.empty {
+    background-color: green;
+}
+
+.legend-box.combined {
+    background-color: purple;
+}
+
+#fromShipmentDATE {
+    position: relative;
+    display: grid;
+    border-color: #c3202f;
+    background-color: #333333;
+    border-radius: 18px;
+    border-width: 2px;
+    color: white;
+    text-align: center;
+    width: 166px;
+    margin-right: 2;
+    z-index: 500 !important;
+    left: 9px;
+    height: 35px;
+}
+
+#fromShipmentDATE::placeholder {
+    color: rgb(209, 209, 209);
+}
+
+#fromShipmentDATE:hover {
+    opacity: .6;
+}
+
+#fromShipmentDATE:active {
+    opacity: 1;
+}
+
+#toShipmentDATE {
+    position: relative;
+    display: grid;
+    border-color: #c3202f;
+    background-color: #333333;
+    border-radius: 18px;
+    border-width: 2px;
+    color: white;
+    text-align: center;
+    width: 166px;
+    margin-right: 2;
+    z-index: 500 !important;
+    left: 9px;
+    height: 35px;
+    top: 5px;
+}
+
+#toShipmentDATE::placeholder {
+    color: rgb(209, 209, 209);
+}
+
+#toShipmentDATE:hover {
+    opacity: .6;
+}
+
+#toShipmentDATE:active {
+    opacity: 1;
+}
+
+#txtPathCard {
+    max-height: 200px;
+    overflow: auto;
+}
+
+::-webkit-scrollbar {
+    width: 19px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #333333;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #c32030d3;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #c32030;
+}
+
+.ui-datepicker {
+    font-size: 12px;
+    width: 170px;
+    background-color: #FFFFFF;
+    border: 1px solid #c3202f;
+}
+
+.ui-datepicker-header {
+    background-color: #333333;
+    border: none;
+    color: #c3202f;
+    font-weight: bold;
+}
+
+.ui-datepicker-title {
+    font-weight: bold;
+    color: #c3202f;
+}
+
+.ui-datepicker-prev,
+.ui-datepicker-next {
+    background-color: #c3202f;
+    border: none;
+}
+
+.ui-datepicker-prev:hover,
+.ui-datepicker-next:hover {
+    background-color: #FFFFFF;
+    color: #c3202f;
+}
+
+.ui-datepicker-calendar tbody td {
+    border: none;
+    background-color: white;
+    color: #333333;
+}
+
+.ui-datepicker-calendar tbody td:hover {
+    background-color: #c3202f;
+    color: #333333;
+}
+
+.ui-datepicker-calendar .ui-state-highlight {
+    background-color: #c3202f;
+    color: #333333;
+}
+
+#btnCollapseNav {
+    position: relative;
+    z-index: 500;
+    border: none;
+    padding: 8px 10px;
+    background-color: #333333;
+    color: #c3202f;
+    border-radius: 0px 10px 10px 0px;
+}
+
+#btnCollapseNav:hover {
+    background-color: #333333e8;
+}
+
+.grayed-out {
+    background-color: gray;
+}
+
+.green {
+    background-color: green;
+}
+
+.Act-numlabel {
+    all: revert;
+    position: absolute;
+    left: 10px;
+    top: 6px;
+    font-size: 14px;
+    /* background-color: transparent !important; */
+    background-color: white;
+    font-weight: bold;
+}
+
+.Empty-numlabel {
+    all: revert;
+    position: absolute;
+    left: 10px;
+    top: 6px;
+    font-size: 14px;
+    /* background-color: transparent !important; */
+    background-color: white;
+    font-weight: bold;
+}
+
+#clear-map {
+    position: absolute;
+    transform: translateX(1px)translateY(915px);
+    padding: 10px 20px;
+    z-index: 500;
+    border: solid;
+    border-radius: 20px;
+    border-color: #333333;
+    background-color: #c3202f;
+    font-size: large;
+    color: white;
+}
+
+#clear-map:hover {
+    background-color: #c32030cb;
+}
+
+#clear-map:active {
+    box-shadow: inset -2px -2px 3px #333333, inset 2px 2px 3px #333333;
+}
+
+:root {
+    scrollbar-width: thin !important;
+}
+
+#NavBar2 {
+    scrollbar-width: thin !important;
+}
+
+#txtPathCard::-webkit-scrollbar-track {
+    background-color: white !important;
 }
